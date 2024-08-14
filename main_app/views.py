@@ -1,16 +1,8 @@
 # main_app/views.py
 
 from django.shortcuts import render
-
-# Import HttpResponse to send text-based responses
+from .models import Cat
 from django.http import HttpResponse
-
-class Cat:
-    def __init__(self, name, breed, description, age):
-        self.name = name
-        self.breed = breed
-        self.description = description
-        self.age = age
 
 # Create a list of Cat instances
 cats = [
@@ -30,5 +22,12 @@ def about(request):
 
 
 def cat_index(request):
-    # Render the cats/index.html template with the cats data
+    cats = Cat.objects.all() 
     return render(request, 'cats/index.html', {'cats': cats})
+
+
+def cat_detail(request, cat_id):
+    cat = Cat.objects.get(id=cat_id)
+    return render(request, 'cats/detail.html', {'cat': cat})
+
+
